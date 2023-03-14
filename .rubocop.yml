@@ -1,0 +1,28 @@
+require: rubocop-rails
+AllCops:   
+  Exclude:     
+    - 'db/**/*'     
+    - 'config/**/*'     
+    - 'libs/**/*'
+    - 'Gemfile'
+    - 'Gemfile.lock'
+Documentation:
+  Enabled: false
+Lint/MissingSuper:
+  Enabled: false
+Rails:
+  Enabled: true
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context']
+  Exclude:
+    - spec/**/*
+Metrics/MethodLength:
+  Max: 50
+Metrics/LineLength:
+  Max: 162
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Metrics/AbcSize:
+  Enabled: false

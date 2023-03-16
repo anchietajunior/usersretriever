@@ -15,6 +15,8 @@ gem "view_component"
 gem "jbuilder"
 gem "redis"
 gem "sidekiq", "~> 6.5"
+gem "httparty"
+gem "interactor", "~> 3.0"
 
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false

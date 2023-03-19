@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  include ActiveJob::TestHelper
+
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:email) }
@@ -30,6 +32,19 @@ RSpec.describe User, type: :model do
         user = User.new(email: "xavier@noria.com")
         expect(user.valid?).to eq(false)
         expect(user.errors.full_messages).to include("Email has already been taken")
+      end
+    end
+  end
+
+  describe "callbacks" do
+    let(:user) { create(:user) }
+
+    context "after_destroy" do
+      it "enqueues a job to send the deleted account email" do
+        user.destroy
+
+        expect(DeletedAccountJob).to have_been_enqueued.on_queue("default")
+          .with(user.name, user.email).at(a_value_within(2.seconds).of(30.minutes.from_now))
       end
     end
   end

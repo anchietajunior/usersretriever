@@ -4,7 +4,9 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
   def index
-    @users = User.all
+    params[:search] ||= build_default_search_params
+    @users = Users::Organizers::Search.call(params: params[:search]).users
+    @pagy, @users = pagy(@users)
   end
 
   def show; end
@@ -50,13 +52,33 @@ class UsersController < ApplicationController
     end
   end
 
+  def bulk_destroy
+    User.where(id: params[:users_ids]).delete_all
+
+    respond_to do |format|
+      format.html { redirect_to users_url, notice: "Selected users were deleted from the application." }
+      format.json { head :no_content }
+    end
+  end
+
+  def queue_fetch_job
+    FetchUsersJob.perform_later
+    redirect_to users_url, notice: "Fetch Jobs Enqueued"
+  end
+
   private
+
+  def build_default_search_params
+    {
+      name_or_email: ""
+    }.with_indifferent_access
+  end
 
   def set_user
     @user = User.find(params[:id])
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :phone, :gender, :height, :weigth, :username, :birth_date, :image)
+    params.require(:user).permit(:name, :email, :phone, :gender, :height, :weigth, :birthdate, :image)
   end
 end

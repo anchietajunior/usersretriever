@@ -17,6 +17,7 @@ gem "redis"
 gem "sidekiq", "~> 6.5"
 gem "httparty"
 gem "interactor", "~> 3.0"
+gem "pagy", "~> 6.0"
 
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
@@ -26,6 +27,7 @@ group :development, :test do
   gem "rubocop-rails", require: false
   gem "rspec-rails", "~> 6.0.0"
   gem "simplecov", require: false
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -35,15 +37,13 @@ end
 group :test do
   gem "rails-controller-testing"
   gem "database_cleaner-active_record"
-  gem "factory_bot_rails", "~> 4.11"
   gem "ffaker", "~> 2.7.0"
   gem "rspec-sidekiq"
   gem "shoulda-matchers", "~> 5.0.0"
   gem "vcr"
-  gem "webmock", "~> 3.6.0"
+  gem "webmock"
 end
 
 group :development do
   gem "web-console"
 end
-

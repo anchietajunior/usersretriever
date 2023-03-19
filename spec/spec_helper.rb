@@ -25,6 +25,13 @@ SimpleCov.start do
   add_group "Services", "app/services"
 end
 
+VCR.configure do |c|
+  c.ignore_localhost = true
+  c.cassette_library_dir = "spec/cassettes"
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+end
+
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

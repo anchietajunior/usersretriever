@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'sidekiq/testing'
 require 'rspec-sidekiq'
+require 'webmock/rspec'
 
 Sidekiq::Testing.inline!
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -66,3 +67,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+RSpec::Matchers.define_negated_matcher :not_have_enqueued_job, :have_enqueued_job
+RSpec::Matchers.define_negated_matcher :not_change, :change

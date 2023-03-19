@@ -1,14 +1,62 @@
-<p style="color: green"><%= notice %></p>
+<div class="container w-full mx-auto mt-2" data-controller="multiple-selection">
+  <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+    <div class="flex flex-row flex-wrap flex-grow mt-2">
+      <div class="w-full p-3">
+        <div class="bg-white border rounded shadow">
+          <div class="border-b p-3">
+            <div class="flex w-full justify-between items-center">
+              <div><h5 class="font-bold uppercase text-gray-600 mb-5 ml-2">Users</h5></div>
+              <div class="flex mb-2">
+                <%= form_tag users_url, method: :get, class: "mr-2" do %>
+                  <%= text_field_tag "search[name_or_email]", params['search']['name_or_email'], class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder: "Type and press enter" %>
+                <% end %>
+                
+                <%= link_to "Create User", new_user_url, class: "text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" %>
 
-<h1>Users</h1>
+                <%= render(FetchUsersButtonComponent.new()) %>
+              </div>
+            </div>
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th>
+                      <input type="checkbox" data-action="change->multiple-selection#toggleAll">
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                    <%= t("activerecord.attributes.user.name") %>
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                      <%= t("activerecord.attributes.user.email") %>
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                      <%= t("activerecord.attributes.user.gender") %>
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                      <%= t("activerecord.attributes.user.birthdate") %>
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                      <%= t("page_actions") %>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="">
+                  <%= render @users %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="flex w-full justify-between items-center mt-4">
+            <div class="mb-3 ml-3 mr-3">
+              <%== pagy_nav(@pagy) %>
+            </div>
 
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New user", new_user_path %>
+            <%= form_tag users_url, method: :get, class: "mr-2" do %>
+              <%= hidden_field_tag :users_ids, data: { "multiple-selection-target": "idsField" } %>
+              <%= button_tag "Delete selected Users", class: "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900", data: { action: "click->multiple-selection#deleteUsers" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

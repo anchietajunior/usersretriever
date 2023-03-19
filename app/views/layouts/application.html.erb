@@ -11,6 +11,9 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render(NavbarComponent.new(title: "Users Retriever App")) %>
+    <div class="container flex flex-wrap items-center justify-between mx-auto">
+      <%= yield %>
+    </div>
   </body>
 </html>

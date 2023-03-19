@@ -1,47 +1,19 @@
-<div id="<%= dom_id user %>">
-  <p>
-    <strong>Name:</strong>
-    <%= user.name %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= user.email %>
-  </p>
-
-  <p>
-    <strong>Phone:</strong>
-    <%= user.phone %>
-  </p>
-
-  <p>
-    <strong>Gender:</strong>
-    <%= user.gender %>
-  </p>
-
-  <p>
-    <strong>Height:</strong>
-    <%= user.height %>
-  </p>
-
-  <p>
-    <strong>Weigth:</strong>
-    <%= user.weigth %>
-  </p>
-
-  <p>
-    <strong>Username:</strong>
-    <%= user.username %>
-  </p>
-
-  <p>
-    <strong>Birth date:</strong>
-    <%= user.birth_date %>
-  </p>
-
-  <p>
-    <strong>Image:</strong>
-    <%= user.image %>
-  </p>
-
-</div>
+<tr id="<%= dom_id user %>" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+	<td><input type="checkbox" data-multiple-selection-target="checkbox" data-action="change->multiple-selection#toggleSelection" value="<%= user.id %>"></td>
+	<th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+		<%= user.name %>
+	</th>
+	<td class="py-4 px-6">
+		<%= user.email %>
+	</td>
+	<td class="py-4 px-6">
+		<%= user.gender %>
+	</td>
+	<td class="py-4 px-6">
+		<%= user.birthdate %>
+	</td>
+	<td class=" px-6">
+		<%= link_to "Show", user_url(user) %> | 
+		<%= link_to "Edit", edit_user_url(user) %>
+	</td>
+</tr>

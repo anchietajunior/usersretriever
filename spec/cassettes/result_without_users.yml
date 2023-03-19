@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://dummyjson.com/users?limit=20&skip=1000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - private, max-age=0, must-revalidate, no-cache, no-store
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 16 Mar 2023 06:03:08 GMT
+      Display:
+      - staticcontent_sol
+      Etag:
+      - W/"2e-d47jS7sa+B8LoM7E6JBEj4i7svc-gzip"
+      Expires:
+      - Wed, 15 Mar 2023 06:03:08 GMT
+      Response:
+      - '200'
+      Server:
+      - Cowboy
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Origin
+      Via:
+      - 1.1 vegur
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Middleton-Display:
+      - staticcontent_sol
+      X-Middleton-Response:
+      - '200'
+      X-Ratelimit-Limit:
+      - '120'
+      X-Ratelimit-Remaining:
+      - '119'
+      X-Ratelimit-Reset:
+      - '1678946627'
+      X-Sol:
+      - pub_site
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '46'
+    body:
+      encoding: UTF-8
+      string: '{"users":[],"total":100,"skip":1000,"limit":0}'
+  recorded_at: Thu, 16 Mar 2023 06:03:08 GMT
+recorded_with: VCR 6.1.0

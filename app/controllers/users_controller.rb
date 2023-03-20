@@ -53,10 +53,11 @@ class UsersController < ApplicationController
   end
 
   def bulk_destroy
-    User.where(id: params[:users_ids]).delete_all
+    # users_ids param is a string containing multiple ids, so i'll split it to become an Array
+    users = User.where(id: params[:users_ids].split(",")).destroy_all
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "Selected users were deleted from the application." }
+      format.html { redirect_to users_url, notice: "#{users.count} were deleted from the application." }
       format.json { head :no_content }
     end
   end

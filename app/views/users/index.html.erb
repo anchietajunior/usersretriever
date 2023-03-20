@@ -20,7 +20,7 @@
               <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th>
+                    <th scope="col" class="py-3 px-6">
                       <input type="checkbox" data-action="change->multiple-selection#toggleAll">
                     </th>
                     <th scope="col" class="py-3 px-6">
@@ -51,8 +51,8 @@
               <%== pagy_nav(@pagy) %>
             </div>
 
-            <%= form_tag users_url, method: :get, class: "mr-2" do %>
-              <%= hidden_field_tag :users_ids, data: { "multiple-selection-target": "idsField" } %>
+            <%= form_tag bulk_destroy_users_url, method: :delete, class: "mr-2", data: { "multiple-selection-target": "bulkDeleteForm", confirm: "Are you sure you want to delete the selected users?" } do %>
+              <%= hidden_field_tag :users_ids, {}, data: { "multiple-selection-target": "idsHiddenField" } %>
               <%= button_tag "Delete selected Users", class: "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900", data: { action: "click->multiple-selection#deleteUsers" } %>
             <% end %>
           </div>

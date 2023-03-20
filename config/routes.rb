@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     collection do
       get "queue_fetch_job"
     end
+    collection do
+      delete "bulk_destroy"
+    end
   end
   root "users#index"
 end

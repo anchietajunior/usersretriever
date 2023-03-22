@@ -6,7 +6,14 @@ class User < ApplicationRecord
 
   after_destroy :send_deleted_account_email
 
+  before_create :expire_users_cache
+  after_destroy :expire_users_cache
+
   private
+
+  def expire_users_cache
+    Rails.cache.delete_matched("*users/page-*")
+  end
 
   def send_deleted_account_email
     DeletedAccountJob.set(wait: 30.minutes).perform_later(name, email)

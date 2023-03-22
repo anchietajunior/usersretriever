@@ -36,3 +36,13 @@ rails dev:cache
 # => Development mode is now being cached.
 ```
 
+## Fetching Users
+
+There's a "Fetch Button" when there are no users in the database
+
+<img width="1335" alt="Screenshot 2023-03-21 at 21 57 20" src="https://user-images.githubusercontent.com/8007754/226774606-4bf7a602-eb7c-45be-a5b0-ce52324df525.png">
+
+## After fetching users
+
+
+<img width="1341" alt="Screenshot 2023-03-21 at 21 58 36" src="https://user-images.githubusercontent.com/8007754/226774675-c7a15e8a-fdcf-4bae-bd3b-7fe709cdef37.png">

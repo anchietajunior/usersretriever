@@ -9,7 +9,7 @@ This app retrieves users from [DummyJson](https://dummyjson.com/users) and save 
 	
 ## Application setup
 
-### Using Docker
+Using Docker for PostgreSQL and Redis and Running Rails locally
 
 ### PostgreSQL
 
@@ -22,3 +22,17 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d
 ```shell
 docker run --name redis -d -p 6379:6379 -i -t redis
 ```
+
+### Create and migrate database
+
+```shell
+rails db:create && rails db:migrate
+```
+
+### Allowing Rails to cache on development
+
+```shell
+rails dev:cache
+# => Development mode is now being cached.
+```
+

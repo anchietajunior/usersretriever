@@ -16,6 +16,6 @@
 	</td>
 	<td scope="row" class=" px-6">
 		<%= link_to "Show", user_url(user) %> | 
-		<%= link_to "Edit", edit_user_url(user) %>
+		<%= link_to "Edit", edit_user_url(user), data: { turbo_frame: "modal" } %>
 	</td>
 </tr>

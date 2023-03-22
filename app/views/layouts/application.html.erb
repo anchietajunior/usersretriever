@@ -11,8 +11,10 @@
   </head>
 
   <body>
+    <%= turbo_frame_tag "modal" %>
     <%= render(NavbarComponent.new(title: "Users Retriever App")) %>
     <div class="container flex flex-wrap items-center justify-between mx-auto">
+      <%= render partial: "layouts/flash" %>
       <%= yield %>
     </div>
   </body>

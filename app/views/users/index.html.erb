@@ -7,11 +7,11 @@
             <div class="flex w-full justify-between items-center">
               <div><h5 class="font-bold uppercase text-gray-600 mb-5 ml-2">Users</h5></div>
               <div class="flex mb-2">
-                <%= form_tag users_url, method: :get, class: "mr-2" do %>
-                  <%= text_field_tag "search[name_or_email]", params['search']['name_or_email'], class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder: "Type and press enter" %>
+                <%= form_tag users_url, method: :get, class: "w-full flex flex-row", data: { controller: "filter", "filter-target": "form" } do %>
+                  <%= text_field_tag "search[name_or_email]", params["search"]["name_or_email"], class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[300px] mr-2", placeholder: "Type and press enter to search" %>
+                  <%= select_tag "search[gender]", options_for_select([["Male", "Male"],["Female", "Female"],["Other", "Other"]], params["search"]["gender"]), :include_blank => true, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-2", data: { action: "change->filter#autoSubmit" } %>
+                  <%= select_tag "search[age]", options_for_select([["Before 2000", "before"],["After 2000", "after"]], params["search"]["age"]), :include_blank => true, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[150px]", data: { action: "change->filter#autoSubmit" } %>
                 <% end %>
-                
-                <%= link_to "Create User", new_user_url, class: "text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" %>
 
                 <%= render(FetchUsersButtonComponent.new()) %>
               </div>
@@ -24,7 +24,7 @@
                       <input type="checkbox" data-action="change->multiple-selection#toggleAll">
                     </th>
                     <th scope="col" class="py-3 px-6">
-                    <%= t("activerecord.attributes.user.name") %>
+                      <%= t("activerecord.attributes.user.name") %>
                     </th>
                     <th scope="col" class="py-3 px-6">
                       <%= t("activerecord.attributes.user.email") %>
@@ -40,8 +40,10 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody class="">
-                  <%= render @users %>
+                <tbody>
+                  <% cache_unless (params['search']['name_or_email'].present? || params['search']['gender'].present? || params['search']['age'].present?), ["users/page-#{params[:page].presence || 0}", @users.maximum('updated_at')] do %>
+                    <%= render @users %>
+                  <% end %>
                 </tbody>
               </table>
             </div>

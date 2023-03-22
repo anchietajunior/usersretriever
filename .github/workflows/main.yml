@@ -1,0 +1,58 @@
+name: Main Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    services:
+      db:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: usersretriever_test
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis
+        ports: ['6379:6379']
+        options: --entrypoint redis-server
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install OS dependencies
+        run: |
+          sudo apt update -qy
+          sudo apt install gcc build-essential libxml2-dev libcurl4-openssl-dev libpq-dev
+          sudo apt install python2-minimal
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install
+
+      - name: Ruby gem cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Build and run Tests
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          RAILS_ENV: test
+          REDIS_URL: redis://localhost:6379/0
+        run: |
+          rm config/database.yml
+          cp config/database.example.yml config/database.yml
+          bundle exec rails db:create
+          bundle exec rails db:test:prepare
+          bundle exec rspec

@@ -24,7 +24,7 @@ module Users
       def build_gender_param
         return {} if params["gender"].blank?
 
-        users_table[:gender].eq(params["gender"])
+        users_table[:gender].eq(params["gender"].downcase)
       end
 
       def build_age_param

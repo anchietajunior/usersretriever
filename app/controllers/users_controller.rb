@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       if @user.save
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.prepend(:users, @user),
+            turbo_stream.prepend(@user, partial: "users/user", locals: { user: @user }),
             turbo_stream.update("flash", partial: "layouts/flash")
           ]
         end

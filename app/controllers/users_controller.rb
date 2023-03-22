@@ -20,9 +20,17 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    flash.now[:notice] = "User was successfully created."
+
     respond_to do |format|
       if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.prepend(:users, @user),
+            turbo_stream.update("flash", partial: "layouts/flash")
+          ]
+        end
+        format.html { redirect_to user_url(@user) }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -34,7 +42,17 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
+        flash.now[:notice] = "User was successfully updated."
+
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace(@user, partial: "users/user", locals: { user: @user }),
+            turbo_stream.update("flash", partial: "layouts/flash")
+          ]
+        end
+
+        # format.turbo_stream { render turbo_stream: turbo_stream.replace(@user, partial: "users/user", locals: { user: @user }) }
+        format.html { redirect_to user_url(@user) }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -71,7 +89,9 @@ class UsersController < ApplicationController
 
   def build_default_search_params
     {
-      name_or_email: ""
+      name_or_email: "",
+      gender: "",
+      age: ""
     }.with_indifferent_access
   end
 

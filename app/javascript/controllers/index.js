@@ -9,3 +9,9 @@ application.register("hello", HelloController)
 
 import MultipleSelectionController from "./multiple_selection_controller"
 application.register("multiple-selection", MultipleSelectionController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
+import FilterController from "./filter_controller"
+application.register("filter", FilterController)

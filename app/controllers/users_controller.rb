@@ -20,6 +20,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    @user.birthdate = Date.parse(params[:user][:birthdate])
+
     flash.now[:notice] = "User was successfully created."
 
     respond_to do |format|

@@ -16,8 +16,10 @@ RSpec.describe Users::Organizers::Search do
     context "when the search param matches an user name" do
       let(:params) do
         {
-          name_or_email: "Raf"
-        }
+          name_or_email: "Raf",
+          gender: "",
+          age: ""
+        }.with_indifferent_access
       end
 
       it "returns an user" do
@@ -28,8 +30,10 @@ RSpec.describe Users::Organizers::Search do
     context "when the search param matches an user name and an user email" do
       let(:params) do
         {
-          name_or_email: "Noria"
-        }
+          name_or_email: "Noria",
+          gender: "",
+          age: ""
+        }.with_indifferent_access
       end
 
       it "returns two users" do
@@ -40,8 +44,10 @@ RSpec.describe Users::Organizers::Search do
     context "when the search param does not matche any user" do
       let(:params) do
         {
-          name_or_email: "Skywalker"
-        }
+          name_or_email: "Skywalker",
+          gender: "",
+          age: ""
+        }.with_indifferent_access
       end
 
       it "returns an empty array" do
